@@ -18,4 +18,6 @@ FROM gcr.io/oss-fuzz-base/base-builder@sha256:1b6a6993690fa947df74ceabbf6a1f89a4
 RUN apt-get update && apt-get install -y make autoconf automake libtool
 RUN git clone --depth 1 -b develop https://github.com/madler/zlib.git
 WORKDIR zlib
+COPY zlib.patch .
+RUN git apply zlib.patch; exit 0
 COPY build.sh zlib_uncompress_fuzzer.cc $SRC/
