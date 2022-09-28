@@ -29,7 +29,9 @@ cd ..
 
 cd freetype2
 git checkout cd02d359a6d0455e9d16b87bf9665961c4699538
-git apply $SRC/freetype2.patch
+if [ -s $SRC/freetype2.patch ]; then
+    git apply $SRC/freetype2.patch
+fi
 ./autogen.sh
 ./configure --with-harfbuzz=no --with-bzip2=no --with-png=no --without-zlib
 make clean
