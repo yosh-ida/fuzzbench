@@ -26,6 +26,9 @@ cd ..
 
 cd woff2
 git checkout 9476664fd6931ea6ec532c94b816d8fbbe3aed90
+if [ -s $SRC/woff2.patch ]; then
+    git apply $SRC/woff2.patch
+fi
 
 for f in font.cc normalize.cc transform.cc woff2_common.cc woff2_dec.cc \
          woff2_enc.cc glyph.cc table_tags.cc variable_length.cc woff2_out.cc; do
