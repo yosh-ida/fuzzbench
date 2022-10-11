@@ -36,23 +36,20 @@ RUN apt-get install -y zlib1g-dev \
 # Set AFL_NO_X86 to skip flaky tests.
 
 # ENV CC=clang-6.0 CXX=clang++-6.0 CFLAGS= CXXFLAGS= LLVM_CONFIG=llvm-config-6.0
-ENV CC=clang-3.8
-ENV CXX=clang++-3.8
-ENV LLVM_CONFIG=llvm-config-3.8
 
 RUN git clone https://github.com/RUB-SysSec/ijon.git /ijon && \
     cd /ijon && \
     git checkout 56ebfe34709dd93f5da7871624ce6eadacc3ae4c && \
-    AFL_NO_X86=1 CFLAGS= CXXFLAGS= make
+    AFL_NO_X86=1 LLVM_CONFIG=llvm-config-3.8 CC=clang-3.8 CXX=clang++-3.8 CFLAGS= CXXFLAGS= make
 
 RUN cd /ijon/llvm_mode && \
-    AFL_NO_X86=1 CFLAGS= CXXFLAGS= make && \
+    AFL_NO_X86=1 LLVM_CONFIG=llvm-config-3.8 CC=clang-3.8 CXX=clang++-3.8 CFLAGS= CXXFLAGS= make && \
     cd /ijon
 
 # Use afl_exitdriver.cpp from LLVM as our fuzzing library.
 RUN apt-get install wget -y && \
     wget https://raw.githubusercontent.com/llvm/llvm-project/5feb80e748924606531ba28c97fe65145c65372e/compiler-rt/lib/fuzzer/afl/afl_driver.cpp -O /ijon/afl_driver.cpp && \
     # clang -Wno-pointer-sign -c /afl/llvm_mode/afl-llvm-rt.o.c -I/afl && \
-    $CXX -stdlib=libc++ -std=c++11 -O2 -c /ijon/afl_driver.cpp
+    clang++-3.8 -stdlib=libc++ -std=c++11 -O2 -c /ijon/afl_driver.cpp
 
 RUN ar r /libAFL.a *.o
