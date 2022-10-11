@@ -99,7 +99,7 @@ def run_afl_fuzz(input_corpus,
     # Spawn the afl fuzzing process.
     print('[run_afl_fuzz] Running target with afl-fuzz')
     command = [
-        './afl-fuzz',
+        os.path.join(os.environ['OUT'], 'afl-fuzz'),
         '-i',
         input_corpus,
         '-o',
