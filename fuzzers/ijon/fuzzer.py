@@ -28,8 +28,8 @@ def prepare_build_environment():
     utils.append_flags('CFLAGS', cflags)
     utils.append_flags('CXXFLAGS', cflags)
 
-    os.environ['CC'] = '/afl/afl-clang-fast'
-    os.environ['CXX'] = '/afl/afl-clang-fast++'
+    os.environ['CC'] = '/ijon/afl-clang-fast'
+    os.environ['CXX'] = '/ijon/afl-clang-fast++'
     os.environ['FUZZER_LIB'] = '/libAFL.a'
 
 
@@ -41,7 +41,7 @@ def build():
 
     print('[post_build] Copying afl-fuzz to $OUT directory')
     # Copy out the afl-fuzz binary as a build artifact.
-    shutil.copy('/afl/afl-fuzz', os.environ['OUT'])
+    shutil.copy('/ijon/afl-fuzz', os.environ['OUT'])
 
 
 def get_stats(output_corpus, fuzzer_log):  # pylint: disable=unused-argument
@@ -99,7 +99,7 @@ def run_afl_fuzz(input_corpus,
     # Spawn the afl fuzzing process.
     print('[run_afl_fuzz] Running target with afl-fuzz')
     command = [
-        './afl-fuzz',
+        '/ijon/afl-fuzz',
         '-i',
         input_corpus,
         '-o',

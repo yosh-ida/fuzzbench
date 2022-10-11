@@ -40,19 +40,19 @@ ENV CC=clang-3.8
 ENV CXX=clang++-3.8
 ENV LLVM_CONFIG=llvm-config-3.8
 
-RUN git clone https://github.com/RUB-SysSec/ijon.git /afl && \
-    cd /afl && \
+RUN git clone https://github.com/RUB-SysSec/ijon.git /ijon && \
+    cd /ijon && \
     git checkout 56ebfe34709dd93f5da7871624ce6eadacc3ae4c && \
     AFL_NO_X86=1 make
 
-RUN cd /afl/llvm_mode && \
+RUN cd /ijon/llvm_mode && \
     AFL_NO_X86=1 make && \
-    cd /afl
+    cd /ijon
 
 # Use afl_exitdriver.cpp from LLVM as our fuzzing library.
 RUN apt-get install wget -y && \
-    wget https://raw.githubusercontent.com/llvm/llvm-project/5feb80e748924606531ba28c97fe65145c65372e/compiler-rt/lib/fuzzer/afl/afl_driver.cpp -O /afl/afl_driver.cpp && \
+    wget https://raw.githubusercontent.com/llvm/llvm-project/5feb80e748924606531ba28c97fe65145c65372e/compiler-rt/lib/fuzzer/afl/afl_driver.cpp -O /ijon/afl_driver.cpp && \
     # clang -Wno-pointer-sign -c /afl/llvm_mode/afl-llvm-rt.o.c -I/afl && \
-    clang++ -stdlib=libc++ -std=c++11 -O2 -c /afl/afl_driver.cpp
+    $CXX -stdlib=libc++ -std=c++11 -O2 -c /ijon/afl_driver.cpp
 
 RUN ar r /libAFL.a *.o
