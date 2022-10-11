@@ -28,8 +28,6 @@ def prepare_build_environment():
     utils.append_flags('CFLAGS', cflags)
     utils.append_flags('CXXFLAGS', cflags)
 
-    os.environ['AFL_CC'] = 'clang-3.8'
-    os.environ['AFL_CXX'] = 'clang++-3.8'
     os.environ['CC'] = '/afl/afl-clang-fast'
     os.environ['CXX'] = '/afl/afl-clang-fast++'
     os.environ['FUZZER_LIB'] = '/libAFL.a'
