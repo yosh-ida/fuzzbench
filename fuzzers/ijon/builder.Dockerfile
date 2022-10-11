@@ -17,7 +17,7 @@ FROM $parent_image
 
 RUN apt-get update -y && \
     # apt-get -y install llvm-6.0 clang-6.0
-    apt-get -y install llvm-3.8 clang-3.8
+    apt-get -y install git llvm-3.8 clang-3.8
 RUN apt-get -y install make gcc cmake libstdc++-5-dev bison software-properties-common
 RUN apt-get -y install libc++-dev libc++abi-dev 
 
