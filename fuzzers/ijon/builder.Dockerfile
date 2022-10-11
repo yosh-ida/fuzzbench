@@ -36,7 +36,9 @@ RUN apt-get install -y zlib1g-dev \
 # Set AFL_NO_X86 to skip flaky tests.
 
 # ENV CC=clang-6.0 CXX=clang++-6.0 CFLAGS= CXXFLAGS= LLVM_CONFIG=llvm-config-6.0
-ENV CC="clang-3.8" CXX="clang++-3.8" LLVM_CONFIG="llvm-config-3.8" CFLAGS="" CXXFLAGS=""
+ENV CC=clang-3.8
+ENV CXX=clang++-3.8
+ENV LLVM_CONFIG=llvm-config-3.8
 
 RUN git clone https://github.com/RUB-SysSec/ijon.git /afl && \
     cd /afl && \
