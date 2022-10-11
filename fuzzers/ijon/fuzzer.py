@@ -70,7 +70,7 @@ def prepare_fuzz_environment(input_corpus):
     os.environ['AFL_NO_AFFINITY'] = '1'
     # AFL will abort on startup if the core pattern sends notifications to
     # external programs. We don't care about this.
-    os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
+    os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = 'true'
     # Don't exit when crashes are found. This can happen when corpus from
     # OSS-Fuzz is used.
     os.environ['AFL_SKIP_CRASHES'] = '1'
