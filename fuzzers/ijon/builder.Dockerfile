@@ -43,10 +43,10 @@ ENV LLVM_CONFIG=llvm-config-3.8
 RUN git clone https://github.com/RUB-SysSec/ijon.git /ijon && \
     cd /ijon && \
     git checkout 56ebfe34709dd93f5da7871624ce6eadacc3ae4c && \
-    AFL_NO_X86=1 make
+    AFL_NO_X86=1 CFLAGS= CXXFLAGS= make
 
 RUN cd /ijon/llvm_mode && \
-    AFL_NO_X86=1 make && \
+    AFL_NO_X86=1 CFLAGS= CXXFLAGS= make && \
     cd /ijon
 
 # Use afl_exitdriver.cpp from LLVM as our fuzzing library.
