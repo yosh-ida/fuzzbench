@@ -15,6 +15,9 @@
 #
 ################################################################################
 
+if [ -s $SRC/zlib.patch ]; then
+    git apply $SRC/zlib.patch
+fi
 ./configure
 make -j$(nproc) clean
 make -j$(nproc) all
