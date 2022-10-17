@@ -18,6 +18,7 @@
 # Instrument mruby
 (
 cd $SRC/mruby
+if [ -s $SRC/mruby.patch ]; then git apply $SRC/mruby.patch fi
 export LD=$CC
 export LDFLAGS="$CFLAGS"
 rake -m || true

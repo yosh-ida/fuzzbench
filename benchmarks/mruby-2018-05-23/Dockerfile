@@ -20,4 +20,4 @@ RUN apt-get update && apt-get install -y build-essential ruby bison ninja-build 
 RUN git clone --depth 1 https://github.com/mruby/mruby mruby
 RUN git clone --depth 1 https://github.com/bshastry/mruby_seeds.git mruby_seeds
 WORKDIR mruby
-COPY build.sh *.c *.options *.dict $SRC/
+COPY build.sh *.c *.options *.dict mruby.patch $SRC/
