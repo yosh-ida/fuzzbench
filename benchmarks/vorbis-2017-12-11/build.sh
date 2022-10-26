@@ -29,6 +29,9 @@ cd ..
 
 cd vorbis
 git checkout c1c2831fc7306d5fbd7bc800324efd12b28d327f
+if [ -s $SRC/vorbis.patch ]; then
+    git apply $SRC/vorbis.patch
+fi
 ./autogen.sh
 ./configure \
     --prefix="$INSTALL_DIR" \
