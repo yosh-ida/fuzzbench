@@ -1,0 +1,44 @@
+--- ../llvm_mode/afl-llvm-pass.so.cc	2022-11-16 13:39:23.271280332 +0900
++++ afl-llvm-pass.so.cc	2022-11-16 13:33:28.827882680 +0900
+@@ -106,12 +106,22 @@
+ 
+   int inst_blocks = 0;
+ 
+-  for (auto &F : M)
++  for (auto &F : M) {
++    Value *RootPrevLoc = NULL;
++    bool firstBB = true;
++
+     for (auto &BB : F) {
+ 
+       BasicBlock::iterator IP = BB.getFirstInsertionPt();
+       IRBuilder<> IRB(&(*IP));
+ 
++      if (firstBB) {
++        firstBB = false;
++        LoadInst *PrevLoc = IRB.CreateLoad(AFLPrevLoc);
++        PrevLoc->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
++        RootPrevLoc = IRB.CreateShl(IRB.CreateZExt(PrevLoc, IRB.getInt32Ty()), 1);
++      }
++
+       if (R(100) >= inst_ratio) continue;
+ 
+       /* Make up cur_loc */
+@@ -131,7 +141,7 @@
+       LoadInst *MapPtr = IRB.CreateLoad(AFLMapPtr);
+       MapPtr->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
+       Value *MapPtrIdx =
+-          IRB.CreateGEP(MapPtr, IRB.CreateXor(PrevLocCasted, CurLoc));
++          IRB.CreateGEP(MapPtr, IRB.CreateXor(RootPrevLoc, IRB.CreateXor(PrevLocCasted, CurLoc)));
+ 
+       /* Update bitmap */
+ 
+@@ -150,7 +160,7 @@
+       inst_blocks++;
+ 
+     }
+-
++  }
+   /* Say something nice. */
+ 
+   if (!be_quiet) {
